@@ -69,11 +69,11 @@ main() {
   local wt_enabled
   wt_enabled="$(get_tmux_option "@catppuccin_window_tabs_enabled" "off")"
   readonly wt_enabled
- 
+
   local pill_theme_enabled
   pill_theme_enabled="$(get_tmux_option "@catppuccin_pill_theme_enabled" "off")"
   readonly pill_theme_enabled
-  
+
   local powerline_theme_enabled
   powerline_theme_enabled="$(get_tmux_option "@catppuccin_powerline_theme_enabled" "off")"
   readonly powerline_theme_enabled
@@ -85,8 +85,8 @@ main() {
   local no_patched_fonts_theme_enabled
   no_patched_fonts_theme_enabled="$(get_tmux_option "@catppuccin_no_patched_fonts_theme_enabled" "off")"
   readonly no_patched_fonts_theme_enabled
-  
-  # Separators for the left status / window list 
+
+  # Separators for the left status / window list
   local l_left_separator
   l_left_separator="$(get_tmux_option "@catppuccin_l_left_separator" "")"
   readonly l_left_separator
@@ -95,7 +95,7 @@ main() {
   l_right_separator="$(get_tmux_option "@catppuccin_l_right_separator" "")"
   readonly l_right_separator
 
-  # Separators for the right status 
+  # Separators for the right status
   local r_left_separator
   r_left_separator="$(get_tmux_option "@catppuccin_r_left_separator" "")"
   readonly r_left_separator
@@ -103,7 +103,7 @@ main() {
   local r_right_separator
   r_right_separator="$(get_tmux_option "@catppuccin_r_right_separator" "")"
   readonly r_right_separator
-  
+
   local user
   user="$(get_tmux_option "@catppuccin_user" "off")"
   readonly user
@@ -115,7 +115,7 @@ main() {
   local date_time
   date_time="$(get_tmux_option "@catppuccin_date_time" "off")"
   readonly date_time
- 
+
   # Icons
   local directory_icon
   directory_icon="$(get_tmux_option "@catppuccin_directory_icon" "")"
@@ -143,7 +143,7 @@ main() {
 
   # Source status line themes
   if [[ "${pill_theme_enabled}" == "off" ]] &&
-    [[ "${powerline_theme_enabled}"  == "off" ]] && 
+    [[ "${powerline_theme_enabled}"  == "off" ]] &&
     [[ "${powerline_icons_theme_enabled}" == "off" ]] &&
     [[ "${no_patched_fonts_theme_enabled}" == "off" ]]; then
     source "$PLUGIN_DIR/$DEFAULT_STATUS_LINE_FILE"
@@ -165,10 +165,8 @@ main() {
     source "$PLUGIN_DIR/$NO_PATCHED_FONTS_STATUS_LINE_FILE"
   fi
 
-  # Right column 1 by default shows the Window name.
   local right_column1=$show_window
 
-  # Right column 2 by default shows the current Session name.
   local right_column2=$show_session
 
   # Window status by default shows the current directory basename.
@@ -178,7 +176,7 @@ main() {
   # NOTE: With the @catppuccin_window_tabs_enabled set to on, we're going to
   # update the right_column1 and the window_status_* variables.
   if [[ "${wt_enabled}" == "on" ]]; then
-    right_column1=$show_directory
+    right_column1=$show_session
     window_status_format=$show_window_in_window_status
     window_status_current_format=$show_window_in_window_status_current
   fi
@@ -195,8 +193,8 @@ main() {
     right_column2="$right_column2$show_date_time"
   fi
 
-  set status-left ""
-  set status-right "${right_column1}${right_column2}"
+  set status-left "${right_column1}"
+  set status-right ""
 
   setw window-status-format "${window_status_format}"
   setw window-status-current-format "${window_status_current_format}"
