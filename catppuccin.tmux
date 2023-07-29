@@ -165,36 +165,37 @@ main() {
     source "$PLUGIN_DIR/$NO_PATCHED_FONTS_STATUS_LINE_FILE"
   fi
 
-  local right_column1=$show_window
+  local left_column=$show_session
 
-  local right_column2=$show_session
+  local right_column=""
 
   # Window status by default shows the current directory basename.
   local window_status_format=$show_directory_in_window_status
   local window_status_current_format=$show_directory_in_window_status_current
 
   # NOTE: With the @catppuccin_window_tabs_enabled set to on, we're going to
-  # update the right_column1 and the window_status_* variables.
+  # update the window_status_* variables.
   if [[ "${wt_enabled}" == "on" ]]; then
-    right_column1=$show_session
     window_status_format=$show_window_in_window_status
     window_status_current_format=$show_window_in_window_status_current
   fi
 
   if [[ "${user}" == "on" ]]; then
-    right_column2="$right_column2$show_user"
+    right_column="$right_column$show_user"
   fi
 
   if [[ "${host}" == "on" ]]; then
-    right_column2="$right_column2$show_host"
+    right_column="$right_column$show_host"
   fi
 
   if [[ "${date_time}" != "off" ]]; then
-    right_column2="$right_column2$show_date_time"
+    right_column="$right_column$show_date_time"
   fi
 
-  set status-left "${right_column1}"
-  set status-right ""
+  right_column=$right_column'#(gitmux "#{pane_current_path}")'
+
+  set status-left "${left_column}"
+  set status-right "${right_column}"
 
   setw window-status-format "${window_status_format}"
   setw window-status-current-format "${window_status_current_format}"
