@@ -44,7 +44,6 @@ main() {
   source /dev/stdin <<<"$(sed -e "/^[^#].*=/s/^/local /" "${PLUGIN_DIR}/catppuccin-${theme}.tmuxtheme")"
 
   # status
-  set status "off"
   set status-bg "${thm_bg}"
   set status-justify "left"
   set status-left-length "100"
@@ -191,8 +190,6 @@ main() {
   if [[ "${date_time}" != "off" ]]; then
     right_column="$right_column$show_date_time"
   fi
-
-  right_column=$right_column'#(gitmux "#{pane_current_path}")'
 
   set status-left "${left_column}"
   set status-right "${right_column}"
